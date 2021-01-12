@@ -1,0 +1,14 @@
+<template>
+  <div class="hello">
+    Hello, {{ msg }}
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'BookingForm',
+  props: {
+    msg: String
+  }
+}
+</script>
