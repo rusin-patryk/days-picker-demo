@@ -8,10 +8,6 @@ export default class DaysPickerFactory {
     };
   }
 
-  static weekDays() {
-    return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  }
-
   static toPickedRange(range = {}) {
     return {
       dateFrom: range.dateFrom || null,

@@ -1,42 +1,61 @@
 <template>
-  <div class="days-picker">
-    <div class="days-picker__container">
-      <div class="days-picker__header">
-        header
+  <div class="daysPicker">
+    <div class="daysPicker__container">
+      <div class="daysPicker__header">
+        <div class="daysPicker__header--previous">
+          <button
+              type="button"
+              @click="changeDate('prev')"
+          ><i class="arrow left"></i>
+          </button>
+        </div>
+        <div class="daysPicker__header--date">
+          {{ currentDate.getMonth() | monthName }} {{ currentDate.getFullYear() }}
+        </div>
+        <div class="daysPicker__header--next">
+          <div class="daysPicker__header--previous">
+            <button
+                type="button"
+                @click="changeDate('next')"
+            >
+              <i class="arrow right"></i>
+            </button>
+          </div>
+        </div>
       </div>
-      <div class="days-picker__week-days">
+      <div class="daysPicker__weekDays">
         <div
             v-for="(day, index) in weekDays"
             :key="`weekDays_${index}`"
-            class="days-picker__week-day"
+            class="daysPicker__weekDay"
         >
           {{ day }}
         </div>
       </div>
-      <div class="days-picker__days">
+      <div class="daysPicker__days">
         <div
             v-for="(day, index) in calendarDays.lastMonth"
             :key="`lastMonth_${index}`"
-            class="days-picker__day days-picker__day--last-month"
+            class="daysPicker__day daysPicker__day--lastMonth"
         >
           {{ day }}
         </div>
         <div
             v-for="(day, index) in calendarDays.currentMonth"
             :key="`currentMonth_${index}`"
-            class="days-picker__day days-picker__day--current-month"
+            class="daysPicker__day daysPicker__day--currentMonth"
         >
           {{ day }}
         </div>
         <div
             v-for="(day, index) in calendarDays.nextMonth"
             :key="`nextMonth_${index}`"
-            class="days-picker__day days-picker__day--next-month"
+            class="daysPicker__day daysPicker__day--nextMonth"
         >
           {{ day }}
         </div>
       </div>
-      <div class="days-picker__actions">
+      <div class="daysPicker__actions">
         actions
       </div>
     </div>
@@ -46,6 +65,7 @@
 <script>
 import DaysPickerFactory from '@/factories/DaysPickerFactory';
 import DaysPickerService from '@/services/DaysPickerService';
+import CalendarConstants from '@/constants/CalendarConstants';
 
 export default {
   name: 'DaysPicker',
@@ -53,12 +73,18 @@ export default {
     return {
       settings: DaysPickerFactory.toSettings(),
       currentDate: DaysPickerService.setDate(),
-      weekDays: DaysPickerFactory.weekDays(),
+      weekDays: CalendarConstants.weekDays(),
       firstMonthDay: null,
       allowedRange: DaysPickerFactory.toAllowedRange(),
       pickedRange: DaysPickerFactory.toPickedRange(),
       calendarDays: DaysPickerFactory.calendarDays(),
     };
+  },
+
+  filters: {
+    monthName: (value) => {
+      return CalendarConstants.getMonths()[value];
+    },
   },
 
   created() {
@@ -76,7 +102,12 @@ export default {
       this.calendarDays.currentMonth = DaysPickerService.pushCurrentMonthDays(this.currentDate);
       this.calendarDays.nextMonth = DaysPickerService.pushNextMonthDays(this.calendarDays);
     },
-  }
+
+    changeDate(modifier) {
+      this.currentDate = DaysPickerService.setDate(this.currentDate, modifier);
+      this.prepareMonth();
+    },
+  },
 };
 </script>
 
