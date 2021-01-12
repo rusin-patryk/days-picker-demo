@@ -1,0 +1,15 @@
+.days-picker {
+  border: 1px solid black;
+  width: 320px;
+  margin: 0 auto;
+  .days-picker__container {
+    .days-picker__week-days, .days-picker__days {
+      display: flex;
+      flex-flow: row wrap;
+      > div {
+        flex: 1 0 14%;
+      }
+    }
+  }
+
+}
