@@ -5,29 +5,36 @@
         header
       </div>
       <div class="days-picker__week-days">
-        <div>_1</div>
-        <div>_2</div>
-        <div>_3</div>
-        <div>_4</div>
-        <div>_5</div>
-        <div>_6</div>
-        <div>_7</div>
+        <div
+            v-for="(day, index) in weekDays"
+            :key="`weekDays_${index}`"
+            class="days-picker__week-day"
+        >
+          {{ day }}
+        </div>
       </div>
       <div class="days-picker__days">
-        <div>1</div>
-        <div>2</div>
-        <div>3</div>
-        <div>4</div>
-        <div>5</div>
-        <div>6</div>
-        <div>7</div>
-        <div>1</div>
-        <div>2</div>
-        <div>3</div>
-        <div>4</div>
-        <div>5</div>
-        <div>6</div>
-        <div>7</div>
+        <div
+            v-for="(day, index) in calendarDays.lastMonth"
+            :key="`lastMonth_${index}`"
+            class="days-picker__day days-picker__day--last-month"
+        >
+          {{ day }}
+        </div>
+        <div
+            v-for="(day, index) in calendarDays.currentMonth"
+            :key="`currentMonth_${index}`"
+            class="days-picker__day days-picker__day--current-month"
+        >
+          {{ day }}
+        </div>
+        <div
+            v-for="(day, index) in calendarDays.nextMonth"
+            :key="`nextMonth_${index}`"
+            class="days-picker__day days-picker__day--next-month"
+        >
+          {{ day }}
+        </div>
       </div>
       <div class="days-picker__actions">
         actions
@@ -68,7 +75,6 @@ export default {
       this.calendarDays.lastMonth = DaysPickerService.pushLastMonthDays(this.currentDate, this.settings.firstDayOfWeek);
       this.calendarDays.currentMonth = DaysPickerService.pushCurrentMonthDays(this.currentDate);
       this.calendarDays.nextMonth = DaysPickerService.pushNextMonthDays(this.calendarDays);
-      console.log(this.calendarDays);
     },
   }
 };

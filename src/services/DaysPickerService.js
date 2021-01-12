@@ -23,7 +23,10 @@ export default class DaysPickerService {
 
   static setWeekDays(weekDays, firstDayOfWeek) {
     if (firstDayOfWeek === 1) {
-      return weekDays.push(weekDays.shift());
+      const firstDay = weekDays[0];
+      weekDays.shift();
+      weekDays.push(firstDay);
+      return weekDays;
     }
     return weekDays;
   }
