@@ -37,8 +37,26 @@
 </template>
 
 <script>
+import DaysPickerFactory from '@/factories/DaysPickerFactory';
+import DaysPickerService from '@/services/DaysPickerService';
+
 export default {
   name: 'DaysPicker',
+  data() {
+    return {
+      settings: DaysPickerFactory.toSettings(),
+      currentDate: DaysPickerService.setDate(),
+      weekDays: DaysPickerFactory.weekDays(),
+      firstMonthDay: null,
+      allowedRange: DaysPickerFactory.toAllowedRange(),
+      pickedRange: DaysPickerFactory.toPickedRange(),
+      calendarDays: DaysPickerFactory.calendarDays(),
+    };
+  },
+
+  created() {
+    console.log(this.currentDate);
+  },
 };
 </script>
 
