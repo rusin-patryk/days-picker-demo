@@ -44,6 +44,7 @@
             v-for="(day, index) in calendarDays.currentMonth"
             :key="`currentMonth_${index}`"
             class="daysPicker__day daysPicker__day--currentMonth"
+            :class="{'today': isToday(day), 'disabled': !isAllowed(day)}"
         >
           {{ day }}
         </div>
@@ -75,7 +76,7 @@ export default {
       currentDate: DaysPickerService.setDate(),
       weekDays: CalendarConstants.weekDays(),
       firstMonthDay: null,
-      allowedRange: DaysPickerFactory.toAllowedRange(),
+      disallowedDates: [],
       pickedRange: DaysPickerFactory.toPickedRange(),
       calendarDays: DaysPickerFactory.calendarDays(),
     };
@@ -106,6 +107,54 @@ export default {
     changeDate(modifier) {
       this.currentDate = DaysPickerService.setDate(this.currentDate, modifier);
       this.prepareMonth();
+    },
+
+    isToday(day) {
+      const today = new Date();
+      return today.getMonth() === this.currentDate.getMonth() && day === today.getDate();
+    },
+
+    isAllowed(day) {
+      const dateToCheck = this.generateStringDate(this.currentDate, day);
+      let inRangeCount = 0;
+      this.disallowedDates.forEach((element) => {
+        if (element[0] === '<') {
+          if (this.isDateInRange(dateToCheck, element.split('<')[1], '<')) {
+            inRangeCount++;
+          }
+        } else if (element[0] === '>') {
+          if (this.isDateInRange(dateToCheck, element.split('>')[1], '>')) {
+            inRangeCount++;
+          }
+        } else {
+          if (this.isDateInRange(dateToCheck, element)) {
+            inRangeCount++;
+          }
+        }
+      });
+      return inRangeCount === 0;
+    },
+
+    isDateInRange(dateToCheck, checkWith, modifier) {
+      if (!modifier) {
+        return dateToCheck === checkWith;
+      } else if (modifier === '<') {
+        return new Date(dateToCheck) < new Date(checkWith);
+      } else if (modifier === '>') {
+        return new Date(dateToCheck) > new Date(checkWith);
+      }
+      return false;
+    },
+
+    generateStringDate(date, day) {
+      return `${date.getFullYear()}-${this.parseTo2Chars(date.getMonth() + 1)}-${this.parseTo2Chars(day)}`;
+    },
+
+    parseTo2Chars(element) {
+      if (element.toString().length === 1) {
+        return `0${element}`;
+      }
+      return element;
     },
   },
 };

@@ -15,14 +15,6 @@ export default class DaysPickerFactory {
     };
   }
 
-  static toAllowedRange(range = {}) {
-    return {
-      dateFrom: range.dateFrom || null,
-      dateTo: range.dateTo || null,
-      notAllowedDates: range.notAllowedDates || [],
-    };
-  }
-
   static calendarDays() {
     return {
       lastMonth: [],
