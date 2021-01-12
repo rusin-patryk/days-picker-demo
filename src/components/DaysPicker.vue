@@ -55,8 +55,22 @@ export default {
   },
 
   created() {
-    console.log(this.currentDate);
+    this.setWeekDays(this.weekDays, this.settings.firstDayOfWeek);
+    this.prepareMonth();
   },
+
+  methods: {
+    setWeekDays(weekDays, firstDayOfWeek) {
+      this.weekDays = DaysPickerService.setWeekDays(weekDays, firstDayOfWeek);
+    },
+
+    prepareMonth() {
+      this.calendarDays.lastMonth = DaysPickerService.pushLastMonthDays(this.currentDate, this.settings.firstDayOfWeek);
+      this.calendarDays.currentMonth = DaysPickerService.pushCurrentMonthDays(this.currentDate);
+      this.calendarDays.nextMonth = DaysPickerService.pushNextMonthDays(this.calendarDays);
+      console.log(this.calendarDays);
+    },
+  }
 };
 </script>
 
