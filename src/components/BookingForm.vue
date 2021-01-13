@@ -1,6 +1,6 @@
 <template>
   <div class="bookingForm">
-    <div class="bookingForm__header">
+    <header class="bookingForm__header">
       <h2
           v-if="price"
           class="bookingForm__price"
@@ -20,8 +20,8 @@
         <span class="bookingForm__ratings--total">{{ rating.total }}</span>
       </div>
       <div class="daysPicker__header--line" />
-    </div>
-    <div class="daysPicker__content">
+    </header>
+    <section class="daysPicker__content">
       <div class="daysPicker__title">Dates</div>
       <div class="daysPicker__form">
         <input
@@ -54,8 +54,8 @@
       <div class="daysPicker__error">
         <span v-if="error">{{ error }}</span>
       </div>
-    </div>
-    <div class="bookingForm__footer">
+    </section>
+    <footer class="bookingForm__footer">
       <button
           class="bookingForm__button bookingForm__button--reset"
           type="button"
@@ -70,7 +70,7 @@
       >
         Submit
       </button>
-    </div>
+    </footer>
   </div>
 </template>
 

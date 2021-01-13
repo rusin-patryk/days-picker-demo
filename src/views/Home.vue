@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <main class="home">
     <BookingForm
         :allowed-range="{min: new Date().toISOString().substr(0, 10), max: '2021-03-15'}"
         :picked-range="pickedRange"
@@ -14,7 +14,7 @@
     <code v-if="pickedRange.dateFrom">
       {{ pickedRange }}
     </code>
-  </div>
+  </main>
 </template>
 
 <script>
