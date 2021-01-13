@@ -1,6 +1,20 @@
 <template>
   <div class="home">
-    <BookingForm msg="BookingForm" />
+    <BookingForm
+        :allowed-range="{min: new Date().toISOString().substr(0, 10), max: '2021-03-15'}"
+        :settings="{
+          firstDayOfWeek: 1,
+          closeOnSelect: true,
+          closeOnClickOutside: true
+        }"
+        :picked-range="pickedRange"
+        :price="125"
+        :rating="{average: 4.5, total: 125,}"
+        @reservation="reservation"
+    />
+    <code v-if="pickedRange.dateFrom">
+      {{ pickedRange }}
+    </code>
   </div>
 </template>
 
@@ -12,5 +26,16 @@ export default {
   components: {
     BookingForm,
   },
+  data() {
+    return {
+      pickedRange: {},
+    };
+  },
+
+  methods: {
+    reservation(pickedRange) {
+      this.pickedRange = pickedRange
+    }
+  }
 };
 </script>

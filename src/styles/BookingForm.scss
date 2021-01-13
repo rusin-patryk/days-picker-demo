@@ -1,0 +1,55 @@
+.bookingForm {
+  max-width: 400px;
+  width: 100%;
+  margin: 0 auto;
+  border: 1px solid lightgrey;
+}
+
+.bookingForm__header {
+  padding-left: 30px;
+  padding-right: 30px;
+
+  .daysPicker__header--line {
+    height: 1px;
+    border-top: 1px solid lightgrey;
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
+}
+
+.bookingForm__price {
+  font-size: 1.6rem;
+  text-align: left;
+  margin-bottom: 5px;
+}
+
+.bookingForm__ratings {
+  display: flex;
+  height: 20px;
+
+  .bookingForm__ratings--average {
+    --percent: calc(var(--rating) / 5 * 100%);
+
+    display: inline-block;
+    font-size: 17px;
+    font-family: Times, serif;
+    line-height: 1;
+
+    &::before {
+      content: '★★★★★';
+      letter-spacing: 0;
+      background: linear-gradient(90deg, #3A787C var(--percent), lightgrey var(--percent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+
+  .bookingForm__ratings--total {
+    margin: 0 0 0 5px;
+    font-size: .9rem;
+    font-weight: 600;
+    position: relative;
+    top: 2px;
+  }
+}
+
