@@ -54,7 +54,7 @@
             @mouseover="hoveredDay = generateStringDate(day)"
             @mouseleave="hoveredDay = null"
         >
-          {{ day }}
+          <span>{{ day }}</span>
         </div>
         <div
             v-for="(day, index) in calendarDays.nextMonth"
@@ -64,8 +64,24 @@
           {{ day }}
         </div>
       </div>
-      <div class="daysPicker__actions">
-        {{ localPickedRange }}
+      <div
+          v-if="!settings.closeOnSelect"
+          class="daysPicker__actions"
+      >
+        <button
+            type="button"
+            class="daysPicker__actionButton daysPicker__actionButton--clear"
+            @click="closeCalendar()"
+        >
+          Zamknij
+        </button>
+        <button
+            type="button"
+            class="daysPicker__actionButton daysPicker__actionButton--enter"
+            @click="saveCalendar()"
+        >
+          Wprowadź
+        </button>
       </div>
     </div>
   </div>
@@ -93,17 +109,14 @@ export default {
       type: Object,
       default: () => DaysPickerFactory.toSettings(),
     },
-    firstMonthDay: {
-      type: Number,
-      default: () => 1,
-    },
     pickedRange: {
       type: Object,
       default: () => DaysPickerFactory.toPickedRange(),
     },
-    disallowedDates: {
-      type: Array,
-      default: () => [],
+    allowedRange: {
+      type: Object,
+      default: () => {
+      },
     },
   },
 
@@ -154,17 +167,19 @@ export default {
           this.setDateFrom(day);
         } else if (!this.localPickedRange.dateTo) {
           this.setDateTo(day);
-          this.closeCalendar();
+          this.saveCalendar();
         } else {
           this.setDateFrom(day);
         }
       }
     },
 
-    closeCalendar(force = false) {
-      if (force || this.settings.closeOnSelect) {
-        this.$emit('close', this.localPickedRange);
-      }
+    saveCalendar() {
+      this.$emit('close', this.localPickedRange);
+    },
+
+    closeCalendar() {
+      this.$emit('close', null);
     },
 
     clearPickedRange() {
@@ -188,28 +203,21 @@ export default {
     isAllowed(day) {
       const dateToCheck = this.generateStringDate(day);
       let inRangeCount = 0;
-      this.disallowedDates.forEach((element) => {
-        if (element[0] === '<') {
-          if (this.isDateInRange(dateToCheck, element.split('<')[1], '<')) {
-            inRangeCount++;
-          }
-        } else if (element[0] === '>') {
-          if (this.isDateInRange(dateToCheck, element.split('>')[1], '>')) {
-            inRangeCount++;
-          }
-        } else {
-          if (this.isDateInRange(dateToCheck, element)) {
-            inRangeCount++;
-          }
+      if (this.allowedRange.min) {
+        if (this.isDateInRange(dateToCheck, this.allowedRange.min, '<')) {
+          inRangeCount++;
         }
-      });
+      }
+      if (this.allowedRange.max) {
+        if (this.isDateInRange(dateToCheck, this.allowedRange.max, '>')) {
+          inRangeCount++;
+        }
+      }
       return inRangeCount === 0;
     },
 
     isDateInRange(dateToCheck, checkWith, modifier) {
-      if (!modifier) {
-        return dateToCheck === checkWith;
-      } else if (modifier === '<') {
+      if (modifier === '<') {
         return new Date(dateToCheck) < new Date(checkWith);
       } else if (modifier === '>') {
         return new Date(dateToCheck) > new Date(checkWith);
