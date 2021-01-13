@@ -2,7 +2,7 @@
 
 ####Settings of the component:
 ```javascript
-<!-- user prop settings of the BookingForm component -->
+// user prop settings of the BookingForm component
 settings: {
   firstDayOfWeek: 1 // Number 1 if you want Monday to be the first day of the week, 0 to Sunday.
   allowedRange: {
