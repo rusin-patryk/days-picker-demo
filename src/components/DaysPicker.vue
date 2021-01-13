@@ -13,14 +13,12 @@
           {{ currentDate.getMonth() | monthName }} {{ currentDate.getFullYear() }}
         </div>
         <div class="daysPicker__header--next">
-          <div class="daysPicker__header--previous">
-            <button
-                type="button"
-                @click="changeDate('next')"
-            >
-              <i class="arrow right"></i>
-            </button>
-          </div>
+          <button
+              type="button"
+              @click="changeDate('next')"
+          >
+            <i class="arrow right"></i>
+          </button>
         </div>
       </div>
       <div class="daysPicker__weekDays">
@@ -72,14 +70,29 @@ export default {
   name: 'DaysPicker',
   data() {
     return {
-      settings: DaysPickerFactory.toSettings(),
       currentDate: DaysPickerService.setDate(),
       weekDays: CalendarConstants.weekDays(),
-      firstMonthDay: null,
-      disallowedDates: [],
-      pickedRange: DaysPickerFactory.toPickedRange(),
       calendarDays: DaysPickerFactory.calendarDays(),
     };
+  },
+
+  props: {
+    settings: {
+      type: Object,
+      default: () => DaysPickerFactory.toSettings(),
+    },
+    firstMonthDay: {
+      type: Number,
+      default: () => 1,
+    },
+    pickedRange: {
+      type: Object,
+      default: () => DaysPickerFactory.toPickedRange(),
+    },
+    disallowedDates: {
+      type: Array,
+      default: () => [],
+    },
   },
 
   filters: {

@@ -1,7 +1,9 @@
 <template>
   <div class="hello">
     Hello, {{ msg }}
-    <DaysPicker />
+    <DaysPicker
+        :disallowedDates="['2021-01-24', `<${new Date().toISOString().substr(0, 10)}`, '>2021-03-13']"
+    />
   </div>
 </template>
 

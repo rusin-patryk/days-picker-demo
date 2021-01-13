@@ -1,5 +1,7 @@
+$baseColor: #21DCB2;
+
 .daysPicker {
-  border: 1px solid black;
+  border: 1px solid #eee;
   width: 320px;
   margin: 0 auto;
 
@@ -7,6 +9,40 @@
     .daysPicker__header {
       display: flex;
       justify-content: space-between;
+      height: 56px;
+      align-items: center;
+      background-color: darken($baseColor, 2%);
+
+      .daysPicker__header--date {
+        font-size: 1.25rem;
+        color: white;
+      }
+
+      .daysPicker__header--previous, .daysPicker__header--next {
+        button {
+          background-color: transparent;
+          border: none;
+          padding: 10px;
+          margin-left: 10px;
+          margin-right: 10px;
+          outline: none;
+          transition-duration: .2s;
+          text-align: center;
+          border-radius: 25px;
+          width: 35px;
+          cursor: pointer;
+          &:hover {
+            background-color: rgba(255, 255, 255, .15);
+          }
+        }
+      }
+    }
+
+    .daysPicker__weekDays {
+      font-size: .8rem;
+      font-weight: 600;
+      color: #ccc;
+      line-height: 30px;
     }
 
     .daysPicker__weekDays, .daysPicker__days {
@@ -14,7 +50,58 @@
       flex-flow: row wrap;
 
       > div {
-        flex: 1 0 14%;
+        flex: 1 0 11%;
+        margin: 4px;
+      }
+    }
+
+    .daysPicker__days {
+      font-size: .9rem;
+      font-weight: 500;
+      line-height: 38px;
+      transition-duration: .2s;
+      user-select: none;
+
+      .daysPicker__day--lastMonth, .daysPicker__day--nextMonth, .daysPicker__day--currentMonth.disabled {
+        color: #ddd;
+        pointer-events: none;
+      }
+
+      .daysPicker__day--currentMonth {
+        position: relative;
+
+        &:not(.disabled) {
+          cursor: pointer;
+        }
+
+        &:hover:after {
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          left: 0;
+          top: 0;
+          border-radius: 25px;
+          background-color: $baseColor;
+          opacity: .3;
+          pointer-events: none;
+        }
+
+        &.today {
+          color: darken($baseColor, 2%);
+
+          &:before {
+            content: '';
+            position: absolute;
+            width: calc(100% - 4px);
+            height: calc(100% - 4px);
+            left: 0;
+            top: 0;
+            border-radius: 25px;
+            border: 2px solid $baseColor;
+            pointer-events: none;
+          }
+        }
       }
     }
   }
