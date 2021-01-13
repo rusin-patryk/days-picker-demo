@@ -46,7 +46,6 @@
       </div>
       <DaysPicker
           v-if="toggleCalendar"
-          :status="toggleCalendar"
           :allowed-range="allowedRange"
           :settings="settings"
           :picked-range="pickedRange"

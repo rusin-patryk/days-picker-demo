@@ -3,7 +3,6 @@ export default class DaysPickerFactory {
     return {
       firstDayOfWeek: settings.firstDayOfWeek || 1,
       closeOnSelect: settings.closeOnSelect || true,
-      closeOnClickOutside: settings.closeOnClickOutside || true,
     };
   }
 

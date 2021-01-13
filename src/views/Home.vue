@@ -5,7 +5,6 @@
         :settings="{
           firstDayOfWeek: 1,
           closeOnSelect: true,
-          closeOnClickOutside: true
         }"
         :picked-range="pickedRange"
         :price="125"
