@@ -41,8 +41,18 @@
         <div
             v-for="(day, index) in calendarDays.currentMonth"
             :key="`currentMonth_${index}`"
-            :class="{'today': isToday(day), 'disabled': !isAllowed(day)}"
+            :class="{
+              'today': isToday(day),
+              'disabled': !isAllowed(day),
+              'inSelectedRange': isInSelectedRange(generateStringDate(day)),
+              'selected first': generateStringDate(day) === localPickedRange.dateFrom,
+              'selected last': generateStringDate(day) === localPickedRange.dateTo,
+              'last': generateStringDate(day) === hoveredDay && !localPickedRange.dateTo,
+            }"
             class="daysPicker__day daysPicker__day--currentMonth"
+            @click="selectDay(day)"
+            @mouseover="hoveredDay = generateStringDate(day)"
+            @mouseleave="hoveredDay = null"
         >
           {{ day }}
         </div>
@@ -55,7 +65,7 @@
         </div>
       </div>
       <div class="daysPicker__actions">
-        actions
+        {{ localPickedRange }}
       </div>
     </div>
   </div>
@@ -73,6 +83,8 @@ export default {
       currentDate: DaysPickerService.setDate(),
       weekDays: CalendarConstants.weekDays(),
       calendarDays: DaysPickerFactory.calendarDays(),
+      localPickedRange: null,
+      hoveredDay: null,
     };
   },
 
@@ -101,7 +113,16 @@ export default {
     },
   },
 
+  watch: {
+    pickedRange: {
+      handler() {
+        this.localPickedRange = this.pickedRange;
+      },
+    },
+  },
+
   created() {
+    this.localPickedRange = this.pickedRange;
     this.setWeekDays(this.weekDays, this.settings.firstDayOfWeek);
     this.prepareMonth();
   },
@@ -122,13 +143,50 @@ export default {
       this.prepareMonth();
     },
 
+    selectDay(day) {
+      if (!this.isAllowed(day)) {
+        return;
+      }
+      if (!this.localPickedRange.dateFrom) {
+        this.setDateFrom(day);
+      } else {
+        if (new Date(this.generateStringDate(day)) < new Date(this.localPickedRange.dateFrom)) {
+          this.setDateFrom(day);
+        } else if (!this.localPickedRange.dateTo) {
+          this.setDateTo(day);
+          this.closeCalendar();
+        } else {
+          this.setDateFrom(day);
+        }
+      }
+    },
+
+    closeCalendar(force = false) {
+      if (force || this.settings.closeOnSelect) {
+        this.$emit('close', this.localPickedRange);
+      }
+    },
+
+    clearPickedRange() {
+      this.localPickedRange = DaysPickerFactory.toPickedRange();
+    },
+
+    setDateFrom(day) {
+      this.clearPickedRange();
+      this.localPickedRange.dateFrom = this.generateStringDate(day);
+    },
+
+    setDateTo(day) {
+      this.localPickedRange.dateTo = this.generateStringDate(day);
+    },
+
     isToday(day) {
       const today = new Date();
       return today.getMonth() === this.currentDate.getMonth() && day === today.getDate();
     },
 
     isAllowed(day) {
-      const dateToCheck = this.generateStringDate(this.currentDate, day);
+      const dateToCheck = this.generateStringDate(day);
       let inRangeCount = 0;
       this.disallowedDates.forEach((element) => {
         if (element[0] === '<') {
@@ -159,7 +217,7 @@ export default {
       return false;
     },
 
-    generateStringDate(date, day) {
+    generateStringDate(day, date = this.currentDate) {
       return `${date.getFullYear()}-${this.parseTo2Chars(date.getMonth() + 1)}-${this.parseTo2Chars(day)}`;
     },
 
@@ -168,6 +226,21 @@ export default {
         return `0${element}`;
       }
       return element;
+    },
+
+    isInSelectedRange(day) {
+      if (!this.localPickedRange.dateFrom) {
+        return false;
+      }
+      if (this.localPickedRange.dateFrom && this.localPickedRange.dateTo) {
+        if (new Date(day) >= new Date(this.localPickedRange.dateFrom) && new Date(day) <= new Date(this.localPickedRange.dateTo)) {
+          return true;
+        }
+      } else if (this.localPickedRange.dateFrom && !this.localPickedRange.dateTo) {
+        if (new Date(day) >= new Date(this.localPickedRange.dateFrom) && new Date(day) <= new Date(this.hoveredDay)) {
+          return true;
+        }
+      }
     },
   },
 };

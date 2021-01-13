@@ -4,7 +4,6 @@ export default class DaysPickerFactory {
       firstDayOfWeek: settings.firstDayOfWeek || 1,
       closeOnSelect: settings.closeOnSelect || true,
       closeOnClickOutside: settings.closeOnClickOutside || true,
-      baseColor: settings.baseColor || '#21DCB2',
     };
   }
 

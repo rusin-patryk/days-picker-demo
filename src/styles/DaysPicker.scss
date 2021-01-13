@@ -2,7 +2,7 @@ $baseColor: #21DCB2;
 
 .daysPicker {
   border: 1px solid #eee;
-  width: 320px;
+  width: 340px;
   margin: 0 auto;
 
   .daysPicker__container {
@@ -44,6 +44,8 @@ $baseColor: #21DCB2;
       font-weight: 600;
       color: #ccc;
       line-height: 30px;
+      padding-left: 10px;
+      padding-right: 10px;
     }
 
     .daysPicker__weekDays, .daysPicker__days {
@@ -62,6 +64,7 @@ $baseColor: #21DCB2;
       line-height: 38px;
       transition-duration: .2s;
       user-select: none;
+      padding: 10px;
 
       .daysPicker__day--lastMonth, .daysPicker__day--nextMonth, .daysPicker__day--currentMonth.disabled {
         color: #ddd;
@@ -101,6 +104,65 @@ $baseColor: #21DCB2;
             border-radius: 25px;
             border: 2px solid $baseColor;
             pointer-events: none;
+          }
+        }
+
+        &.inSelectedRange {
+          color: darken($baseColor, 20%);
+
+          &:before {
+            content: '';
+            position: absolute;
+            width: calc(100% + 8px);
+            height: 100%;
+            left: -4px;
+            top: 0;
+            border-radius: 0;
+            background-color: $baseColor;
+            opacity: .3;
+            pointer-events: none;
+            z-index: 9;
+          }
+          &.last {
+            color: white;
+            background-color: $baseColor;
+            border-radius: 25px;
+            &:before {
+              width: calc(50% + 4px);
+              height: 100%;
+              left: -4px;
+              top: 0;
+              z-index: -1;
+            }
+          }
+        }
+
+        &.selected {
+          color: white;
+          background-color: $baseColor;
+          border-radius: 25px;
+          &.first {
+            &:before {
+              width: calc(50% + 4px);
+              height: 100%;
+              left: 50%;
+              top: 0;
+              z-index: -1;
+            }
+          }
+          &.last {
+            &:before {
+              width: calc(50% + 4px);
+              height: 100%;
+              left: -4px;
+              top: 0;
+              z-index: -1;
+            }
+          }
+          &.last.first {
+            &:before {
+              background-color: transparent;
+            }
           }
         }
       }
