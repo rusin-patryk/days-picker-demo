@@ -53,3 +53,51 @@
   }
 }
 
+.daysPicker__content {
+  padding-left: 30px;
+  padding-right: 30px;
+
+  .daysPicker__title {
+    font-size: .9rem;
+    font-weight: bold;
+    text-align: left;
+  }
+
+  .daysPicker__form {
+    border: 1px solid lightgray;
+    display: flex;
+  }
+
+  .daysPicker__error {
+    height: 20px;
+    font-size: .85rem;
+    padding-top: 4px;
+    color: #c30000;
+  }
+}
+
+.bookingForm__footer {
+  margin-top: 10px;
+  margin-bottom: 30px;
+  text-align: right;
+  padding-left: 30px;
+  padding-right: 30px;
+
+  .bookingForm__button--submit {
+    background-color: #8b0000;
+    color: white;
+    border: 1px solid #8b0000;
+    border-radius: 3px;
+    padding: 8px 20px;
+    cursor: pointer;
+    transition-duration: .2s;
+    outline: none;
+
+    &:hover {
+      background-color: #640000;
+      border-color: #640000;
+      color: white;
+    }
+  }
+}
+

@@ -21,16 +21,44 @@
       </div>
       <div class="daysPicker__header--line" />
     </div>
-    <div>
-      <DaysPicker
-          :allowed-range="allowedRange"
-          :settings="settings"
-          :picked-range="pickedRange"
-          @close="closeCalendar"
-      />
+    <div class="daysPicker__content">
+      <div class="daysPicker__title">Dates</div>
+      <div class="daysPicker__form">
+        <input
+            type="text"
+            class="daysPicker__input daysPicker__input--dateFrom"
+            placeholder="Check In"
+            title="Check In"
+            v-model="pickedRange.dateFrom"
+            readonly
+        />
+        <input
+            type="text"
+            class="daysPicker__input daysPicker__input--dateTo"
+            placeholder="Check Out"
+            title="Check Out"
+            v-model="pickedRange.dateTo"
+            readonly
+        />
+      </div>
+      <div class="daysPicker__error">
+        <span v-if="error">{{ error }}</span>
+      </div>
     </div>
-    <div>
-
+    <DaysPicker
+        :allowed-range="allowedRange"
+        :settings="settings"
+        :picked-range="pickedRange"
+        @close="closeCalendar"
+    />
+    <div class="bookingForm__footer">
+      <button
+          type="button"
+          class="bookingForm__button--submit"
+          @click="reservation()"
+      >
+        Rezerwuj
+      </button>
     </div>
   </div>
 </template>
@@ -49,6 +77,7 @@ export default {
     return {
       toggleCalendar: false,
       pickedRange: DaysPickerFactory.toPickedRange(),
+      error: null,
     };
   },
 
@@ -78,6 +107,15 @@ export default {
       if (pickedRange) {
         this.pickedRange = pickedRange;
       }
+    },
+
+    reservation() {
+      this.error = null;
+      if (!this.pickedRange.dateFrom || !this.pickedRange.dateTo) {
+        this.error = 'Wymagane jest uzupełnienie formularza';
+        return;
+      }
+      this.$emit('reservation', this.pickedRange);
     },
   },
 };
