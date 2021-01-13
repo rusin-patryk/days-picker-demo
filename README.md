@@ -1,6 +1,7 @@
 # Demo Day Picker
 
 #### Settings of the component:
+
 ```javascript
 // use prop settings of the BookingForm component
 settings: {
@@ -13,6 +14,7 @@ settings: {
 ```
 
 #### Component returns:
+
 ```javascript
 pickedRange: {
   dateFrom: '2021-01-14'

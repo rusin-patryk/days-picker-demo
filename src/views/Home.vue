@@ -2,13 +2,13 @@
   <div class="home">
     <BookingForm
         :allowed-range="{min: new Date().toISOString().substr(0, 10), max: '2021-03-15'}"
+        :picked-range="pickedRange"
+        :price="125"
+        :rating="{average: 4.5, total: 125,}"
         :settings="{
           firstDayOfWeek: 1,
           closeOnSelect: true,
         }"
-        :picked-range="pickedRange"
-        :price="125"
-        :rating="{average: 4.5, total: 125,}"
         @reservation="reservation"
     />
     <code v-if="pickedRange.dateFrom">
@@ -33,8 +33,8 @@ export default {
 
   methods: {
     reservation(pickedRange) {
-      this.pickedRange = pickedRange
-    }
-  }
+      this.pickedRange = pickedRange;
+    },
+  },
 };
 </script>

@@ -7,8 +7,10 @@
         <div class="daysPicker__header--previous">
           <button
               type="button"
+              class="daysPicker__changeDate--prev"
               @click="changeDate('prev')"
-          ><i class="arrow left"></i>
+          >
+            <i class="arrow left"></i>
           </button>
         </div>
         <div class="daysPicker__header--date">
@@ -17,6 +19,7 @@
         <div class="daysPicker__header--next">
           <button
               type="button"
+              class="daysPicker__changeDate--next"
               @click="changeDate('next')"
           >
             <i class="arrow right"></i>
@@ -53,8 +56,8 @@
             }"
             class="daysPicker__day daysPicker__day--currentMonth"
             @click="selectDay(day)"
-            @mouseover="hoveredDay = generateStringDate(day)"
             @mouseleave="hoveredDay = null"
+            @mouseover="hoveredDay = generateStringDate(day)"
         >
           <span>{{ day }}</span>
         </div>
@@ -71,15 +74,15 @@
           class="daysPicker__actions"
       >
         <button
-            type="button"
             class="daysPicker__actionButton daysPicker__actionButton--clear"
+            type="button"
             @click="closeCalendar()"
         >
           Close
         </button>
         <button
-            type="button"
             class="daysPicker__actionButton daysPicker__actionButton--enter"
+            type="button"
             @click="saveCalendar()"
         >
           OK
@@ -117,8 +120,7 @@ export default {
     },
     allowedRange: {
       type: Object,
-      default: () => {
-      },
+      default: () => DaysPickerFactory.toAllowedRange(),
     },
   },
 

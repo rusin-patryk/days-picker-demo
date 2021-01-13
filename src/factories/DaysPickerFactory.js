@@ -13,6 +13,13 @@ export default class DaysPickerFactory {
     };
   }
 
+  static toAllowedRange(range = {}) {
+    return {
+      min: range.min || null,
+      max: range.max || null,
+    };
+  }
+
   static calendarDays() {
     return {
       lastMonth: [],

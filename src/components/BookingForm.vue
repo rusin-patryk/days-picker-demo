@@ -2,19 +2,19 @@
   <div class="bookingForm">
     <div class="bookingForm__header">
       <h2
-          class="bookingForm__price"
           v-if="price"
+          class="bookingForm__price"
       >
         {{ price }} zł
       </h2>
       <div
-          class="bookingForm__ratings"
           v-if="rating.average"
+          class="bookingForm__ratings"
       >
         <div
-            class="bookingForm__ratings--average"
             :style="{'--rating': rating.average}"
             aria-label="Rating of this product is 2.3 out of 5."
+            class="bookingForm__ratings--average"
         >
         </div>
         <span class="bookingForm__ratings--total">{{ rating.total }}</span>
@@ -25,30 +25,30 @@
       <div class="daysPicker__title">Dates</div>
       <div class="daysPicker__form">
         <input
-            type="text"
+            v-model="pickedRange.dateFrom"
             class="daysPicker__input daysPicker__input--dateFrom"
             placeholder="Check In"
-            title="Check In"
-            v-model="pickedRange.dateFrom"
             readonly
+            title="Check In"
+            type="text"
             @click="toggleCalendar = !toggleCalendar"
         />
         <div class="form-arrow"></div>
         <input
-            type="text"
+            v-model="pickedRange.dateTo"
             class="daysPicker__input daysPicker__input--dateTo"
             placeholder="Check Out"
-            title="Check Out"
-            v-model="pickedRange.dateTo"
             readonly
+            title="Check Out"
+            type="text"
             @click="toggleCalendar = !toggleCalendar"
         />
       </div>
       <DaysPicker
           v-if="toggleCalendar"
           :allowed-range="allowedRange"
-          :settings="settings"
           :picked-range="pickedRange"
+          :settings="settings"
           @close="closeCalendar"
       />
       <div class="daysPicker__error">
@@ -57,15 +57,15 @@
     </div>
     <div class="bookingForm__footer">
       <button
-          type="button"
           class="bookingForm__button bookingForm__button--reset"
+          type="button"
           @click="reset()"
       >
         Reset
       </button>
       <button
-          type="button"
           class="bookingForm__button bookingForm__button--submit"
+          type="button"
           @click="reservation()"
       >
         Submit
@@ -100,6 +100,10 @@ export default {
     rating: {
       type: Object,
       default: () => {
+        return {
+          average: null,
+          total: null,
+        };
       },
     },
     settings: {
@@ -108,8 +112,7 @@ export default {
     },
     allowedRange: {
       type: Object,
-      default: () => {
-      },
+      default: () => DaysPickerFactory.toAllowedRange(),
     },
   },
 
@@ -123,8 +126,8 @@ export default {
 
     reservation() {
       this.error = null;
-      if (!this.pickedRange.dateFrom || !this.pickedRange.dateTo) {
-        this.error = 'Wymagane jest uzupełnienie formularza';
+      if (!this.pickedRange || !this.pickedRange.dateFrom || !this.pickedRange.dateTo) {
+        this.error = 'It is required to complete the form.';
         return;
       }
       this.$emit('reservation', this.pickedRange);
