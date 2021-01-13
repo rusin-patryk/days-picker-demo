@@ -1,9 +1,10 @@
 $baseColor: #21DCB2;
 
 .daysPicker {
-  border: 1px solid #eee;
+  border: 1px solid #ddd;
   width: 340px;
   margin: 0 auto;
+  background-color: white;
 
   .daysPicker__container {
     .daysPicker__header {
@@ -91,7 +92,7 @@ $baseColor: #21DCB2;
           pointer-events: none;
         }
 
-        &.today {
+        &.today:not(.selected) {
           color: darken($baseColor, 2%);
 
           &:before {
@@ -123,16 +124,18 @@ $baseColor: #21DCB2;
             pointer-events: none;
             z-index: 9;
           }
+
           &.last {
             color: white;
             background-color: $baseColor;
             border-radius: 25px;
+
             &:before {
               width: calc(50% + 4px);
               height: 100%;
               left: -4px;
               top: 0;
-              z-index: -1;
+              z-index: 9;
             }
           }
         }
@@ -141,28 +144,73 @@ $baseColor: #21DCB2;
           color: white;
           background-color: $baseColor;
           border-radius: 25px;
+
+          span {
+            position: relative;
+            z-index: 10;
+          }
+
+
           &.first {
             &:before {
               width: calc(50% + 4px);
               height: 100%;
               left: 50%;
               top: 0;
-              z-index: -1;
+              z-index: 9;
             }
           }
+
           &.last {
             &:before {
               width: calc(50% + 4px);
               height: 100%;
               left: -4px;
               top: 0;
-              z-index: -1;
+              z-index: 9;
             }
           }
+
           &.last.first {
             &:before {
               background-color: transparent;
             }
+          }
+        }
+      }
+    }
+
+    .daysPicker__actions {
+      text-align: right;
+      padding: 0 15px 15px 15px;
+
+      .daysPicker__actionButton {
+        background-color: transparent;
+        color: #999;
+        border: 1px solid #999;
+        border-radius: 3px;
+        padding: 4px 10px;
+        cursor: pointer;
+        transition-duration: .2s;
+        outline: none;
+
+        &.daysPicker__actionButton--clear {
+          margin-right: 10px;
+
+          &:hover {
+            background-color: #999;
+            color: white;
+          }
+        }
+
+        &.daysPicker__actionButton--enter {
+          border-color: $baseColor;
+          background-color: $baseColor;
+          color: white;
+
+          &:hover {
+            background-color: darken($baseColor, 5%);
+            border-color: darken($baseColor, 5%);
           }
         }
       }
