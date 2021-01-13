@@ -31,7 +31,9 @@
             title="Check In"
             v-model="pickedRange.dateFrom"
             readonly
+            @click="toggleCalendar = !toggleCalendar"
         />
+        <div class="form-arrow"></div>
         <input
             type="text"
             class="daysPicker__input daysPicker__input--dateTo"
@@ -39,25 +41,35 @@
             title="Check Out"
             v-model="pickedRange.dateTo"
             readonly
+            @click="toggleCalendar = !toggleCalendar"
         />
       </div>
+      <DaysPicker
+          v-if="toggleCalendar"
+          :status="toggleCalendar"
+          :allowed-range="allowedRange"
+          :settings="settings"
+          :picked-range="pickedRange"
+          @close="closeCalendar"
+      />
       <div class="daysPicker__error">
         <span v-if="error">{{ error }}</span>
       </div>
     </div>
-    <DaysPicker
-        :allowed-range="allowedRange"
-        :settings="settings"
-        :picked-range="pickedRange"
-        @close="closeCalendar"
-    />
     <div class="bookingForm__footer">
       <button
           type="button"
-          class="bookingForm__button--submit"
+          class="bookingForm__button bookingForm__button--reset"
+          @click="reset()"
+      >
+        Reset
+      </button>
+      <button
+          type="button"
+          class="bookingForm__button bookingForm__button--submit"
           @click="reservation()"
       >
-        Rezerwuj
+        Submit
       </button>
     </div>
   </div>
@@ -107,6 +119,7 @@ export default {
       if (pickedRange) {
         this.pickedRange = pickedRange;
       }
+      this.toggleCalendar = false;
     },
 
     reservation() {
@@ -115,6 +128,12 @@ export default {
         this.error = 'Wymagane jest uzupełnienie formularza';
         return;
       }
+      this.$emit('reservation', this.pickedRange);
+    },
+
+    reset() {
+      this.error = null;
+      this.pickedRange = DaysPickerFactory.toPickedRange();
       this.$emit('reservation', this.pickedRange);
     },
   },

@@ -54,6 +54,7 @@
 }
 
 .daysPicker__content {
+  position: relative;
   padding-left: 30px;
   padding-right: 30px;
 
@@ -61,11 +62,34 @@
     font-size: .9rem;
     font-weight: bold;
     text-align: left;
+    margin-bottom: 5px;
   }
 
   .daysPicker__form {
     border: 1px solid lightgray;
     display: flex;
+    height: 30px;
+    align-items: center;
+    padding: 8px;
+
+    .daysPicker__input {
+      width: 38%;
+      background-color: transparent;
+      border: none;
+      outline: none;
+      font-size: 1.1rem;
+      padding: 3px 8px;
+      cursor: pointer;
+
+      &.daysPicker__input--dateFrom {
+        &::placeholder {
+          color: #52807d
+        }
+
+        background-color: #A3D9D6;
+        color: #426765
+      }
+    }
   }
 
   .daysPicker__error {
@@ -83,20 +107,35 @@
   padding-left: 30px;
   padding-right: 30px;
 
-  .bookingForm__button--submit {
-    background-color: #8b0000;
-    color: white;
-    border: 1px solid #8b0000;
+  .bookingForm__button {
     border-radius: 3px;
     padding: 8px 20px;
     cursor: pointer;
     transition-duration: .2s;
     outline: none;
 
-    &:hover {
-      background-color: #640000;
-      border-color: #640000;
+    &.bookingForm__button--reset {
+      background-color: transparent;
+      color: #999;
+      border: 1px solid #999;
+      margin-right: 15px;
+
+      &:hover {
+        background-color: #999;
+        color: white;
+      }
+    }
+
+    &.bookingForm__button--submit {
+      background-color: #8b0000;
       color: white;
+      border: 1px solid #8b0000;
+
+      &:hover {
+        background-color: #640000;
+        border-color: #640000;
+        color: white;
+      }
     }
   }
 }
