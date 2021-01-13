@@ -41,8 +41,8 @@
         <div
             v-for="(day, index) in calendarDays.currentMonth"
             :key="`currentMonth_${index}`"
-            class="daysPicker__day daysPicker__day--currentMonth"
             :class="{'today': isToday(day), 'disabled': !isAllowed(day)}"
+            class="daysPicker__day daysPicker__day--currentMonth"
         >
           {{ day }}
         </div>
@@ -174,8 +174,8 @@ export default {
 </script>
 
 <style
-    scoped
     lang="scss"
+    scoped
 >
 
 @import '../styles/DaysPicker';
