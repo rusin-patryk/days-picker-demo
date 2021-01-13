@@ -3,7 +3,7 @@
     <BookingForm
         :allowed-range="{min: new Date().toISOString().substr(0, 10), max: '2021-03-15'}"
         :picked-range="pickedRange"
-        :price="125"
+        :price="298"
         :rating="{average: 4.5, total: 125,}"
         :settings="{
           firstDayOfWeek: 1,
